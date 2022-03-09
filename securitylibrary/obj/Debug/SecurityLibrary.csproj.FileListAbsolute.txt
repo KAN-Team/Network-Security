@@ -12,3 +12,8 @@ F:\GoogleDriveSync\Security 2018-2019\Staff\Labs\Lab 1\SecurityPackage\SecurityL
 F:\GoogleDriveSync\Security 2018-2019\Staff\Labs\Lab 1\SecurityPackage\SecurityLibrary\obj\Debug\SecurityLibrary.csprojResolveAssemblyReference.cache
 F:\GoogleDriveSync\Security 2018-2019\Staff\Labs\Lab 1\SecurityPackage\SecurityLibrary\obj\Debug\SecurityLibrary.dll
 F:\GoogleDriveSync\Security 2018-2019\Staff\Labs\Lab 1\SecurityPackage\SecurityLibrary\obj\Debug\SecurityLibrary.pdb
+C:\Users\LENOVO\OneDrive\Documents\githup\Data-security\SecurityLibrary\bin\Debug\SecurityLibrary.dll
+C:\Users\LENOVO\OneDrive\Documents\githup\Data-security\SecurityLibrary\bin\Debug\SecurityLibrary.pdb
+C:\Users\LENOVO\OneDrive\Documents\githup\Data-security\SecurityLibrary\obj\Debug\SecurityLibrary.csproj.CoreCompileInputs.cache
+C:\Users\LENOVO\OneDrive\Documents\githup\Data-security\SecurityLibrary\obj\Debug\SecurityLibrary.dll
+C:\Users\LENOVO\OneDrive\Documents\githup\Data-security\SecurityLibrary\obj\Debug\SecurityLibrary.pdb
