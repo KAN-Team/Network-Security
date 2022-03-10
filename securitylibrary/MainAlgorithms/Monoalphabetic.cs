@@ -8,19 +8,95 @@ namespace SecurityLibrary
 {
     public class Monoalphabetic : ICryptographicTechnique<string, string>
     {
+        List<char> alphabets = new List<char>();
+
         public string Analyse(string plainText, string cipherText)
         {
-            throw new NotImplementedException();
+            alphabets.Clear();
+            alphabets.AddRange("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+
+            List<char> PT = new List<char>();
+            PT.AddRange(plainText.ToUpper());
+
+            List<char> CT = new List<char>();
+            CT.AddRange(cipherText);
+
+            int index;
+            string key = "";
+            char nextChar;
+            foreach (char alphabet in alphabets)
+            {
+                if (PT.Contains(alphabet))
+                {
+                    index = PT.IndexOf(alphabet);
+                    key += CT[index];
+                }
+                else
+                {
+                    if (key.Length > 0)
+                    {
+                        index = alphabets.IndexOf(key[key.Length - 1]);
+                        nextChar = alphabets[(index + 1) % 26];
+                        while (key.Length != 26)
+                        {
+                            if (!key.Contains(nextChar) && !CT.Contains(nextChar))
+                            {
+                                key += nextChar;
+                                break;
+                            }
+                            else
+                            {
+                                index++;
+                                nextChar = alphabets[(index + 1) % 26];
+                            }
+                        }
+                    }
+                    else
+                    {
+                        key += alphabets[0];
+                    }
+
+                }
+            }
+            return key.ToLower();
         }
 
         public string Decrypt(string cipherText, string key)
         {
-            throw new NotImplementedException();
+            alphabets.Clear();
+            alphabets.AddRange("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+
+            List<char> input = new List<char>();
+            input.AddRange(cipherText);
+            List<char> mainkey = new List<char>();
+            mainkey.AddRange(key.ToUpper());
+            int index;
+            string decrypted = "";
+
+            foreach (char alphabet in input)
+            {
+                index = mainkey.IndexOf(alphabet);
+                decrypted += alphabets[index];
+            }
+            return decrypted.ToLower();
         }
 
         public string Encrypt(string plainText, string key)
         {
-            throw new NotImplementedException();
+            alphabets.Clear();
+            alphabets.AddRange("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+            List<char> input = new List<char>();
+            input.AddRange(plainText.ToUpper());
+            List<char> mainkey = new List<char>();
+            mainkey.AddRange(key.ToUpper());
+            int index;
+            string encrypted = "";
+            foreach (char alphabet in input)
+            {
+                index = alphabets.IndexOf(alphabet);
+                encrypted += mainkey[index];
+            }
+            return encrypted.ToUpper();
         }
 
         /// <summary>
@@ -56,7 +132,11 @@ namespace SecurityLibrary
         /// <returns>Plain text</returns>
         public string AnalyseUsingCharFrequency(string cipher)
         {
-            throw new NotImplementedException();
+            alphabets.Clear();
+            alphabets.AddRange("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+            List<char> freq = new List<char>();
+            freq.AddRange("ETAOINSRHLDCUMFPGWYBVKJQZ");
+            return "";
         }
     }
 }

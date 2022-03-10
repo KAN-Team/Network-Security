@@ -11,7 +11,7 @@ namespace SecurityPackageTest
     public class MonoalphabeticTest
     {
         string mainPlain = "meetmeafterthetogaparty";
-        string mainCipher = "phhwphdiwhuwkhwrjdsduwb".ToUpper();
+        string mainCipher ="phhwphdiwhuwkhwrjdsduwb".ToUpper();
         string mainKey = "defghijklmnopqrstuvwxyzabc";
 
 
@@ -20,10 +20,10 @@ namespace SecurityPackageTest
         string mainKey1 = "isyvkjruxedzqmctplofnbwgah";
 
         string mainPlain2 = "hellosecuritymonoalphabetic";
-        string mainCipher2 = "ukzzcokynlxfaqcmciztuiskfxy".ToUpper();
+        string mainCipher2 ="ukzzcokynlxfaqcmciztuiskfxy".ToUpper();
 
         string newPlain = "ENGLISHASTRONOMERWILLIAMLASSELLDISCOVEREDTRITON".ToLower();
-        string newCipher = "EGSDAMTUMOLHGHFELWADDAUFDUMMEDDVAMIHQELEVOLAOHG".ToUpper();
+        string newCipher ="EGSDAMTUMOLHGHFELWADDAUFDUMMEDDVAMIHQELEVOLAOHG".ToUpper();
         string newKey = "UNIVERSTABCDFGHJKLMOPQWXYZ".ToLower();
 
         [TestMethod]
