@@ -17,4 +17,3 @@ C:\Users\LENOVO\OneDrive\Documents\githup\Data-security\SecurityLibrary\bin\Debu
 C:\Users\LENOVO\OneDrive\Documents\githup\Data-security\SecurityLibrary\obj\Debug\SecurityLibrary.csproj.CoreCompileInputs.cache
 C:\Users\LENOVO\OneDrive\Documents\githup\Data-security\SecurityLibrary\obj\Debug\SecurityLibrary.dll
 C:\Users\LENOVO\OneDrive\Documents\githup\Data-security\SecurityLibrary\obj\Debug\SecurityLibrary.pdb
-C:\Users\LENOVO\OneDrive\Documents\githup\Data-security\SecurityLibrary\obj\Debug\SecurityLibrary.csprojAssemblyReference.cache
