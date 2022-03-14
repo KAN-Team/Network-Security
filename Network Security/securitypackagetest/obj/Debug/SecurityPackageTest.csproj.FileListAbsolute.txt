@@ -43,3 +43,4 @@ E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\Network Security\Security
 E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\Network Security\SecurityPackageTest\obj\Debug\SecurityPackageTest.csproj.CoreCompileInputs.cache
 E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\Network Security\SecurityPackageTest\obj\Debug\SecurityPackageTest.dll
 E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\Network Security\SecurityPackageTest\obj\Debug\SecurityPackageTest.pdb
+E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\Network Security\SecurityPackageTest\obj\Debug\SecurityPackageTest.csproj.CopyComplete
