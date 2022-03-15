@@ -21,29 +21,19 @@ namespace SecurityLibrary
         {
             // **** this method returns cipher as a string **** //
             // =============================================== //
-            List<int> plainNumeric = new List<int>(new int[plainText.Length]);
-            List<int> keyNumeric = new List<int>(new int[key.Length]);
-            plainText = plainText.ToLower();
-            key = key.ToLower();
-            // =============================================== //
 
             // ======= Convert from letters to numbers ======= //
-            for (int i = 0; i < plainText.Length; ++i)
-                plainNumeric[i] = plainText[i] - 'a';
-
-            for (int i = 0; i < key.Length; ++i)
-                keyNumeric[i] = key[i] - 'a';
+            List<int> plainNumeric = textToNumbers(plainText);
+            List<int> keyNumeric = textToNumbers(key);
             // =============================================== //
 
             List<int> cipherNumeric = doEncryption(plainNumeric, keyNumeric);
 
             // ======= Convert from numbers to letters ======= //
-            StringBuilder cipherText = new StringBuilder(cipherNumeric.Count + 1);
-            for (int i = 0; i < cipherNumeric.Count; ++i)
-                cipherText.Append((char)('a' + cipherNumeric[i]));
+            string cipherText = numbersToText(cipherNumeric);
             // =============================================== //
 
-            return cipherText.ToString();
+            return cipherText;
         }
 
         public List<int> Decrypt(List<int> cipherText, List<int> key)
@@ -56,29 +46,19 @@ namespace SecurityLibrary
         {
             // **** this method returns plain as a string **** //
             // =============================================== //
-            List<int> cipherNumeric = new List<int>(new int[cipherText.Length]);
-            List<int> keyNumeric = new List<int>(new int[key.Length]);
-            cipherText = cipherText.ToLower();
-            key = key.ToLower();
-            // =============================================== //
 
             // ======= Convert from letters to numbers ======= //
-            for (int i = 0; i < cipherText.Length; ++i)
-                cipherNumeric[i] = cipherText[i] - 'a';
-
-            for (int i = 0; i < key.Length; ++i)
-                keyNumeric[i] = key[i] - 'a';
+            List<int> cipherNumeric = textToNumbers(cipherText);
+            List<int> keyNumeric = textToNumbers(key);
             // =============================================== //
 
             List<int> plainNumeric = doDecryption(cipherNumeric, keyNumeric);
 
             // ======= Convert from numbers to letters ======= //
-            StringBuilder plainText = new StringBuilder(plainNumeric.Count + 1);
-            for (int i = 0; i < plainNumeric.Count; ++i)
-                plainText.Append((char)('a' + plainNumeric[i]));
+            string plainText = numbersToText(plainNumeric);
             // =============================================== //
 
-            return plainText.ToString();
+            return plainText;
         }
 
         public List<int> Analyse(List<int> plainText, List<int> cipherText)
@@ -104,26 +84,13 @@ namespace SecurityLibrary
         #region HELPERS
         private List<int> doEncryption(List<int> plainText, List<int> key)
         {
-            /*
-             * Instead of converting to 2D matrices and appling dot product, 
-             * we worked on the row based arrays as they are.
-             */
-            List<int> cipherText = new List<int>(new int[plainText.Count]);
+            // Converting both lists to matrices
+            // before multiplying them (as a matrix multiplication)
+            // =============================================== //
             int transition = (int)Math.Sqrt(key.Count);
-            int keyIt = 0, plaintIt = 0;
-
-            for (int m = 0; m < plainText.Count; ++m)
-            {
-                for (int tr = 0; tr < transition; ++tr)
-                {
-                    cipherText[m] += key[keyIt] * plainText[tr + plaintIt]; // element x element in 2 mat
-                    keyIt = (keyIt + 1) % key.Count; // grantees circular shift
-                }
-                cipherText[m] %= 26;
-                if ((m + 1) % transition == 0) // on getting m successive letters (one vector)
-                    plaintIt += transition;
-            }
-
+            int[,] keyMat = listToMatrix(key);
+            int[,] plainMat = listToMatrix(plainText, transition);
+            List<int> cipherText = mul2Matrices(keyMat, plainMat);
             return cipherText;
         }
 
@@ -132,35 +99,14 @@ namespace SecurityLibrary
             // =============================================== //
             // Convert row based key into a 2D matrix
             int N = (int)Math.Sqrt(key.Count);
-            int[,] keyMat = new int[N, N];
-            int c = 0;
-            for (int i = 0; i < N; ++i)
-                for (int j = 0; j < N; ++j)
-                    keyMat[i, j] = key[c++];
+            int[,] keyMat = listToMatrix(key);
             // =============================================== //
-
+            // Get the inverse key matrix 
             int[,] keyInverseMat = getKeyInverse(keyMat);
-
             // =============================================== //
-            // Multiply the Key Inverse Matrix
-            // with the row based cipher List
-            List<int> numericalPlain = new List<int>(new int[cipherText.Count]);
-            int p = 0;
-            for (int m = 0; m < cipherText.Count;)
-            {
-                for (int i = 0; i < keyInverseMat.GetLength(0); ++i)
-                {
-                    for (int j = 0; j < keyInverseMat.GetLength(1); ++j)
-                        numericalPlain[p] += keyInverseMat[i, j] * cipherText[m + j];
-
-                    numericalPlain[p] %= 26;
-                    if (numericalPlain[p] < 0)
-                        numericalPlain[p] += 26;
-
-                    p++;
-                }
-                m += N;
-            }
+            // Convert row based cipher into 2D mat and multiply it with the key inverse mat
+            int[,] cipherMat = listToMatrix(cipherText, N);
+            List<int> numericalPlain = mul2Matrices(keyInverseMat, cipherMat);
             // =============================================== //
 
             return numericalPlain;
@@ -188,14 +134,12 @@ namespace SecurityLibrary
 
             int[,] keyInverseMat = new int[keyMat.GetLength(0), keyMat.GetLength(1)];
             for (int i = 0; i < keyMat.GetLength(0); ++i)
-            {
                 for (int j = 0; j < keyMat.GetLength(1); ++j)
                 {
                     int temp1 = detInv * (int)Math.Pow(-1, i + j);
-                    int temp2 = getSubDeterminant(keyMat, i, j) % 26; // may be a negative value
+                    int temp2 = getSubDeterminant(keyMat, i, j) % 26;
                     keyInverseMat[i, j] = ((temp1 * temp2) % 26 + 26) % 26;
                 }
-            }
 
             // transpose the matrix
             for (int i = 0; i < keyMat.GetLength(0); ++i)
@@ -238,6 +182,69 @@ namespace SecurityLibrary
                 }
             }
             return region[0] * region[3] - region[1] * region[2];
+        }
+
+        private List<int> textToNumbers(string text)
+        {
+            List<int> result = new List<int>(new int[text.Length]);
+            text = text.ToLower();
+            for (int i = 0; i < text.Length; ++i)
+                result[i] = text[i] - 'a';
+
+            return result;
+        }
+
+        private string numbersToText(List<int> numbers)
+        {
+            StringBuilder text = new StringBuilder(numbers.Count + 1);
+            for (int i = 0; i < numbers.Count; ++i)
+                text.Append((char)('a' + numbers[i]));
+
+            return text.ToString();
+        }
+
+        private static int[,] listToMatrix(List<int> list)
+        {
+            // === Convert row based list (e.g. key) into a 2D matrix === //
+            int N = (int)Math.Sqrt(list.Count);   // key mat dimensions
+            int[,] matrix = new int[N, N];
+            int c = 0;
+            for (int i = 0; i < N; ++i)
+                for (int j = 0; j < N; ++j)
+                    matrix[i, j] = list[c++];
+
+            return matrix;
+        }
+
+        private static int[,] listToMatrix(List<int> list, int keyDimen)
+        {
+            // === Convert row based list (e.g. plain/cipher) into a 2D matrix 
+            // === with rows equals to the specified keyDimen and multiple cols
+            int N = (list.Count + 1) / keyDimen; // number of cols
+            list.Add(0); list.Add(0);
+            int[,] matrix = new int[keyDimen, N];
+            int c = 0;
+            for (int i = 0; i < N; ++i)
+                for (int j = 0; j < keyDimen; ++j)
+                    matrix[j, i] = list[c++];
+
+            return matrix;
+        }
+
+        private List<int> mul2Matrices(int[,] mat1, int[,] mat2)
+        {
+            int N = mat1.GetLength(0); // key dimension
+            int M = mat2.GetLength(0) * mat2.GetLength(1); // cipher/plain size
+            int K = mat2.GetLength(1); // max number of iterations 
+            List<int> result = new List<int>(new int[M]); // row list of the same (plain/cipher) size
+            int it = 0; // result index iterator
+
+            for (int k = 0; k < K; ++k)
+                for (int i = 0; i < N; ++i, result[it] = (result[it] % 26 + 26) % 26, ++it)
+                    for (int j = 0; j < N; ++j)
+                        result[it] += mat1[i, j] * mat2[j, k];
+
+            return result;
         }
         #endregion
     }
