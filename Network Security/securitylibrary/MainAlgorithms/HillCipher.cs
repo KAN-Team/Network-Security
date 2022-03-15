@@ -171,11 +171,10 @@ namespace SecurityLibrary
             if (keyMat.GetLength(0) == 2) // if the key is a 2D matrix
             {
                 int a = keyMat[0, 0], b = keyMat[0, 1], c = keyMat[1, 0], d = keyMat[1, 1];
-                decimal factor = 1 / (a * d - b * c);       // determinant multiplicative inverse
-                a = (int)(Math.Ceiling(a * factor)) % 26;
-                b = (int)(Math.Ceiling(b * factor)) % 26;
-                c = (int)(Math.Ceiling(c * factor)) % 26;
-                d = (int)(Math.Ceiling(d * factor)) % 26;
+                int delta = a * d - b * c; // determinant
+                int detInverse = getDeterminantInverse(delta);
+                a = (a * detInverse) % 26; b = (b * detInverse) % 26;
+                c = (c * detInverse) % 26; d = (d * detInverse) % 26;
                 keyMat[0, 0] = d; keyMat[1, 1] = a; keyMat[0, 1] = -b; keyMat[1, 0] = -c;
 
                 return keyMat;
