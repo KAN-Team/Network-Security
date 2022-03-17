@@ -272,7 +272,7 @@ namespace SecurityPackageTest
 
         #region error test cases (key with no inverse) [Bonus]
 
-        [Ignore]
+        // [Ignore]
         [TestMethod]
         [ExpectedException(typeof(InvalidAnlysisException))]
         public void HillCipherError1()

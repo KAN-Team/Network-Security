@@ -67,7 +67,7 @@ namespace SecurityLibrary
             // and compare the result with the given cypher
             // =============================================== //
             List<int> key = get2x2Key(plainText, cipherText);
-            if (key == null)
+            if (key == null) // Invalid Key
                 throw new InvalidAnlysisException();
             return key;
         }
@@ -83,6 +83,8 @@ namespace SecurityLibrary
             // =============================================== //
 
             List<int> keyNumeric = get2x2Key(plainNumeric, cipherNumeric);
+            if (keyNumeric == null) // Invalid Key
+                throw new InvalidAnlysisException();
 
             // ======= Convert from numbers to letters ======= //
             string keyText = numbersToText(keyNumeric);
@@ -97,7 +99,8 @@ namespace SecurityLibrary
             // and compare the result with the given cypher
             // =============================================== //
             List<int> key = get3x3Key(plainText, cipherText);
-            // if (key != null)
+            if (key == null) // Invalid Key
+                throw new InvalidAnlysisException();
             return key;
         }
 
@@ -112,6 +115,8 @@ namespace SecurityLibrary
             // =============================================== //
 
             List<int> keyNumeric = get3x3Key(plainNumeric, cipherNumeric);
+            if (keyNumeric == null) // Invalid Key
+                throw new InvalidAnlysisException();
 
             // ======= Convert from numbers to letters ======= //
             string keyText = numbersToText(keyNumeric);
@@ -136,6 +141,9 @@ namespace SecurityLibrary
         private List<int> doDecryption(List<int> cipherText, List<int> key)
         {
             // =============================================== //
+            // Check for an invalid key
+            if (!isValidKey(key)) throw new InvalidOperationException();
+            // =============================================== //
             // Convert row based key into a 2D matrix
             int N = (int)Math.Sqrt(key.Count);
             int[,] keyMat = listToMatrix(key);
@@ -156,7 +164,7 @@ namespace SecurityLibrary
             if (matrix.GetLength(0) == 2) // if the key is a 2D matrix
             {
                 int a = matrix[0, 0], b = matrix[0, 1], c = matrix[1, 0], d = matrix[1, 1];
-                int delta = a * d - b * c; // determinant
+                int delta = getKeyDeterminant(matrix);
                 int detInverse = getDeterminantInverse(delta);
                 a = (a * detInverse) % 26; b = (b * detInverse) % 26;
                 c = (c * detInverse) % 26; d = (d * detInverse) % 26;
@@ -191,6 +199,11 @@ namespace SecurityLibrary
 
         private int getKeyDeterminant(int[,] keyMat)
         {
+            // 2x2 matrix
+            if (keyMat.Length == 4) // a*d - b*c
+                return ((keyMat[0, 0] * keyMat[1, 1] - keyMat[0, 1] * keyMat[1, 0]) % 26 + 26) % 26;
+
+            // 3x3 matrix
             int firstPart = keyMat[0, 0] * (keyMat[1, 1] * keyMat[2, 2] - keyMat[1, 2] * keyMat[2, 1]);
             int secondPart = keyMat[0, 1] * (keyMat[1, 0] * keyMat[2, 2] - keyMat[1, 2] * keyMat[2, 0]);
             int thirdPart = keyMat[0, 2] * (keyMat[1, 0] * keyMat[2, 1] - keyMat[1, 1] * keyMat[2, 0]);
@@ -201,10 +214,11 @@ namespace SecurityLibrary
         private int getDeterminantInverse(int det)
         {
             // calculate the determinant multiplicative inverse
-            int b = 1, R = 26 - det;
-            while (true)
+            int b = 1, R = 26 - det, thresh = 26*3000000+2; // thresh reflects for no value of b exists
+            while (b < thresh)
                 if (b % R == 0) break;
                 else b += 26;
+            if (b == thresh) return -1;
             return 26 - (b / R);
         }
 
@@ -259,8 +273,8 @@ namespace SecurityLibrary
         }
         private List<int> get3x3Key(List<int> plain, List<int> cypher)
         {
-            for (int a = 0; a < 26; ++a)
-                for (int b = 0; b < 26; ++b)
+            for (int a = 1; a < 26; ++a) // initialize by 1 for quicker run
+                for (int b = 10; b < 26; ++b) // initialize by 10 for quicker run
                     for (int c = 0; c < 26; ++c)
                         for (int d = 0; d < 26; ++d)
                             for (int e = 0; e < 26; ++e)
@@ -279,6 +293,7 @@ namespace SecurityLibrary
         }
 
         // === HELPERS OF HELPERS === //
+        #region HELPERS_OF_HELPERS
         private List<int> textToNumbers(string text)
         {
             List<int> result = new List<int>(new int[text.Length]);
@@ -352,6 +367,44 @@ namespace SecurityLibrary
                 if (L1[i] != L2[i]) return false;
             return true;
         }
+
+        private bool isValidKey(List<int> key)
+        {
+            // condition 1: All elements are nonnegative and less than 26
+            for (int i = 0; i < key.Count; ++i)
+                if (key[i] < 0 || key[i] > 25)
+                    return false;
+
+            // condition 2: det(k) not equal zero
+            int[,] keyMat = listToMatrix(key);
+            int detK = getKeyDeterminant(keyMat);
+            if (detK == 0) return false;
+
+            // condition 3: No common factors between det(k) and 26 (GCD (26,det(k)) = 1)
+            if (getGCD(26, detK) != 1) 
+                return false;
+
+            // condition 4: There exists a positive integer b<26 and (b X det(k)) mod 26 = 1
+            if (getDeterminantInverse(detK) == -1)
+                return false;
+
+            return true;
+        }
+
+        private int getGCD(int a, int b)
+        {
+            while (a != 0 && b != 0)
+            {
+                if (a > b)
+                    a %= b;
+                else
+                    b %= a;
+            }
+
+            return a | b;
+        }
+        #endregion
+
         #endregion
     }
 }
