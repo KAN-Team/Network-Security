@@ -63,22 +63,61 @@ namespace SecurityLibrary
 
         public List<int> Analyse(List<int> plainText, List<int> cipherText)
         {
-            throw new NotImplementedException();
+            // Brute Force the Key and encrypt the plain with it 
+            // and compare the result with the given cypher
+            // =============================================== //
+            List<int> key = get2x2Key(plainText, cipherText);
+            if (key == null)
+                throw new InvalidAnlysisException();
+            return key;
         }
 
-        public string Analyse(string plainText, string key)
+        public string Analyse(string plainText, string cipherText)
         {
-            throw new NotImplementedException();
+            // **** this method returns key as a string **** //
+            // =============================================== //
+
+            // ======= Convert from letters to numbers ======= //
+            List<int> plainNumeric = textToNumbers(plainText);
+            List<int> cipherNumeric = textToNumbers(cipherText);
+            // =============================================== //
+
+            List<int> keyNumeric = get2x2Key(plainNumeric, cipherNumeric);
+
+            // ======= Convert from numbers to letters ======= //
+            string keyText = numbersToText(keyNumeric);
+            // =============================================== //
+
+            return keyText;
         }
 
         public List<int> Analyse3By3Key(List<int> plainText, List<int> cipherText)
         {
-            throw new NotImplementedException();
+            // Brute Force the Key and encrypt the plain with it 
+            // and compare the result with the given cypher
+            // =============================================== //
+            List<int> key = get3x3Key(plainText, cipherText);
+            // if (key != null)
+            return key;
         }
 
-        public string Analyse3By3Key(string plainText, string key)
+        public string Analyse3By3Key(string plainText, string cipherText)
         {
-            throw new NotImplementedException();
+            // **** this method returns key as a string **** //
+            // =============================================== //
+
+            // ======= Convert from letters to numbers ======= //
+            List<int> plainNumeric = textToNumbers(plainText);
+            List<int> cipherNumeric = textToNumbers(cipherText);
+            // =============================================== //
+
+            List<int> keyNumeric = get3x3Key(plainNumeric, cipherNumeric);
+
+            // ======= Convert from numbers to letters ======= //
+            string keyText = numbersToText(keyNumeric);
+            // =============================================== //
+
+            return keyText;
         }
 
         #region HELPERS
@@ -102,7 +141,7 @@ namespace SecurityLibrary
             int[,] keyMat = listToMatrix(key);
             // =============================================== //
             // Get the inverse key matrix 
-            int[,] keyInverseMat = getKeyInverse(keyMat);
+            int[,] keyInverseMat = getMatInverse(keyMat);
             // =============================================== //
             // Convert row based cipher into 2D mat and multiply it with the key inverse mat
             int[,] cipherMat = listToMatrix(cipherText, N);
@@ -112,42 +151,42 @@ namespace SecurityLibrary
             return numericalPlain;
         }
 
-        private int[,] getKeyInverse(int[,] keyMat)
+        private int[,] getMatInverse(int[,] matrix)
         {
-            if (keyMat.GetLength(0) == 2) // if the key is a 2D matrix
+            if (matrix.GetLength(0) == 2) // if the key is a 2D matrix
             {
-                int a = keyMat[0, 0], b = keyMat[0, 1], c = keyMat[1, 0], d = keyMat[1, 1];
+                int a = matrix[0, 0], b = matrix[0, 1], c = matrix[1, 0], d = matrix[1, 1];
                 int delta = a * d - b * c; // determinant
                 int detInverse = getDeterminantInverse(delta);
                 a = (a * detInverse) % 26; b = (b * detInverse) % 26;
                 c = (c * detInverse) % 26; d = (d * detInverse) % 26;
-                keyMat[0, 0] = d; keyMat[1, 1] = a; keyMat[0, 1] = -b; keyMat[1, 0] = -c;
+                matrix[0, 0] = d; matrix[1, 1] = a; matrix[0, 1] = -b; matrix[1, 0] = -c;
 
-                return keyMat;
+                return matrix;
             }
 
             // ================================================== //
             // Get the Key Inverse of a 3D Matrix
-            int det = getKeyDeterminant(keyMat);
+            int det = getKeyDeterminant(matrix);
 
             int detInv = getDeterminantInverse(det);
 
-            int[,] keyInverseMat = new int[keyMat.GetLength(0), keyMat.GetLength(1)];
-            for (int i = 0; i < keyMat.GetLength(0); ++i)
-                for (int j = 0; j < keyMat.GetLength(1); ++j)
+            int[,] keyInverseMat = new int[matrix.GetLength(0), matrix.GetLength(1)];
+            for (int i = 0; i < matrix.GetLength(0); ++i)
+                for (int j = 0; j < matrix.GetLength(1); ++j)
                 {
                     int temp1 = detInv * (int)Math.Pow(-1, i + j);
-                    int temp2 = getSubDeterminant(keyMat, i, j) % 26;
+                    int temp2 = getSubDeterminant(matrix, i, j) % 26;
                     keyInverseMat[i, j] = ((temp1 * temp2) % 26 + 26) % 26;
                 }
 
             // transpose the matrix
-            for (int i = 0; i < keyMat.GetLength(0); ++i)
-                for (int j = 0; j < keyMat.GetLength(1); ++j)
-                    keyMat[i, j] = keyInverseMat[j, i];
+            for (int i = 0; i < matrix.GetLength(0); ++i)
+                for (int j = 0; j < matrix.GetLength(1); ++j)
+                    matrix[i, j] = keyInverseMat[j, i];
             // ================================================== //
 
-            return keyMat;
+            return matrix;
         }
 
         private int getKeyDeterminant(int[,] keyMat)
@@ -184,6 +223,62 @@ namespace SecurityLibrary
             return region[0] * region[3] - region[1] * region[2];
         }
 
+        private bool isKeyFound = false;
+        private List<int> getKey(List<int> key, int index, List<int> plain, List<int> cypher)
+        {
+            if (isKeyFound) return key;
+            if (index == key.Count)
+                return key;
+
+            for (int i = 0; i < 26; ++i)
+            {
+                key[index] = i;
+                List<int> currentKey = getKey(key, index + 1, plain, cypher);
+                List<int> cypherTest = doEncryption(plain, currentKey);
+                if (isEqual(cypher, cypherTest))
+                {
+                    isKeyFound = true;
+                    return currentKey;
+                }
+            }
+
+            return key;
+        }
+        private List<int> get2x2Key(List<int> plain, List<int> cypher)
+        {
+            for(int i = 0; i < 26; ++i)
+                for (int j = 0; j < 26; ++j)
+                    for (int k = 0; k < 26; ++k)
+                        for (int l = 0; l < 26; ++l)
+                        {
+                            List<int> currentKey = new List<int>() { i, j, k, l };
+                            List<int> cypher_test = doEncryption(plain, currentKey);
+                            if (isEqual(cypher, cypher_test)) return currentKey;
+                        }
+            return null;
+        }
+        private List<int> get3x3Key(List<int> plain, List<int> cypher)
+        {
+            for (int a = 0; a < 26; ++a)
+                for (int b = 0; b < 26; ++b)
+                    for (int c = 0; c < 26; ++c)
+                        for (int d = 0; d < 26; ++d)
+                            for (int e = 0; e < 26; ++e)
+                                for (int f = 0; f < 26; ++f)
+                                    for (int g = 0; g < 26; ++g)
+                                        for (int h = 0; h < 26; ++h)
+                                            for (int i = 0; i < 26; ++i)
+                                            {
+                                                List<int> currentKey = new List<int>() { a, b, c, 
+                                                                                         d, e, f,
+                                                                                         g, h, i};
+                                                List<int> cypher_test = doEncryption(plain, currentKey);
+                                                if (isEqual(cypher, cypher_test)) return currentKey;
+                                            }
+            return null;
+        }
+
+        // === HELPERS OF HELPERS === //
         private List<int> textToNumbers(string text)
         {
             List<int> result = new List<int>(new int[text.Length]);
@@ -203,7 +298,7 @@ namespace SecurityLibrary
             return text.ToString();
         }
 
-        private static int[,] listToMatrix(List<int> list)
+        private int[,] listToMatrix(List<int> list)
         {
             // === Convert row based list (e.g. key) into a 2D matrix === //
             int N = (int)Math.Sqrt(list.Count);   // key mat dimensions
@@ -216,18 +311,20 @@ namespace SecurityLibrary
             return matrix;
         }
 
-        private static int[,] listToMatrix(List<int> list, int keyDimen)
+        private int[,] listToMatrix(List<int> list, int keyDimen)
         {
             // === Convert row based list (e.g. plain/cipher) into a 2D matrix 
             // === with rows equals to the specified keyDimen and multiple cols
-            int N = (list.Count + 1) / keyDimen; // number of cols
-            list.Add(0); list.Add(0);
+            int N = (list.Count + 1) / keyDimen;    // number of cols
+            list.Add(0); list.Add(0);               // for equalizing with matrix
             int[,] matrix = new int[keyDimen, N];
-            int c = 0;
+            int c = 0;                              // List iterator
+
             for (int i = 0; i < N; ++i)
                 for (int j = 0; j < keyDimen; ++j)
                     matrix[j, i] = list[c++];
 
+            list.RemoveRange(list.Count - 2, 2);    // to handle reference passing
             return matrix;
         }
 
@@ -245,6 +342,15 @@ namespace SecurityLibrary
                         result[it] += mat1[i, j] * mat2[j, k];
 
             return result;
+        }
+
+        private bool isEqual(List<int> L1, List<int> L2)
+        {
+            int N = L1.Count, M = L2.Count;
+            if (N != M) return false;
+            for (int i = 0; i < N; ++i)
+                if (L1[i] != L2[i]) return false;
+            return true;
         }
         #endregion
     }
