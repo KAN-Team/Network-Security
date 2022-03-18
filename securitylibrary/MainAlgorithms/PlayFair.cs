@@ -13,7 +13,104 @@ namespace SecurityLibrary
 
         public string Decrypt(string cipherText, string key)
         {
-            throw new NotImplementedException();
+
+            char[,] matrix = new char[5, 5];
+            matrix = CreateMatrix(key);
+            List<string> splitted = new List<string>();
+            string decrypted = "";
+            splitted = splitString(cipherText);
+            int type;
+            foreach (string part in splitted)
+            {
+                type = search(part, matrix);
+                int newRow1, newRow2, newCol1, newCol2, index;
+                switch (type)
+                {
+                    case 1: //same row
+                        // handle negative number and mod 
+                        index = col1 - 1;
+                        if (index < 0) index = 5 + index;
+                        newCol1 = index % 5;
+                        decrypted += matrix[row1, newCol1];
+
+                        index = col2 - 1;
+                        if (index < 0) index = 5 + index;
+                        newCol2 = index % 5;
+                        decrypted += matrix[row2, newCol2];
+                        break;
+                    case 2: // same col
+
+                        index = row1 - 1;
+                        if (index < 0) index = 5 + index;
+                        newRow1 = index % 5;
+                        decrypted += matrix[newRow1, col1];
+
+                        index = row2 - 1;
+                        if (index < 0) index = 5 + index;
+                        newRow2 = index % 5;
+                        decrypted += matrix[newRow2, col2];
+                        break;
+                    case 3: // diagonal
+                        decrypted += matrix[row1, col2];
+                        decrypted += matrix[row2, col1];
+                        break;
+                }
+
+            }
+            // remove X
+            int count = 0;
+            int j = 0;
+            List<string> splited = new List<string>();
+            splited.Add("");
+            for (int i = 0; i < decrypted.Length; i++)
+            {
+                if (count != 2)
+                {
+                    if (splited[j].Length > 0)
+                    {
+                        splited[j] += decrypted[i];
+                    }
+                    else
+                    {
+                        splited[j] += decrypted[i];
+                    }
+                    count++;
+                }
+                else
+                {
+                    count = 0;
+                    j++;
+                    i--;
+                    splited.Add("");
+                }
+            }
+            string output = "";
+            for (int i = 0; i < splited.Count; i++)
+            {
+                if(i< splited.Count-1)
+                if (splited[i][1].Equals('X') && splited[i][0] == splited[i + 1][0])
+                {
+                    splited[i].Remove(1, 1);
+                    output += splited[i][0];
+                }
+                else
+                {
+                    output += splited[i][0];
+                    output += splited[i][1];
+                }
+            }
+            // remove last X
+            if (splited[splited.Count - 1][1].Equals('X'))
+            {
+                output += splited[splited.Count - 1][0];
+            }
+            else
+            {
+                output += splited[splited.Count - 1][0];
+                output += splited[splited.Count - 1][1];
+            }   
+            decrypted = output;
+            return decrypted;
         }
 
         public string Encrypt(string plainText, string key)
@@ -136,7 +233,7 @@ namespace SecurityLibrary
                     {
                         if (splitted[j][0].Equals(text[i]))
                         {
-                            splitted[j] += 'X';
+                            splitted[j] += 'X'; 
                             i--;
                         }
                         else
