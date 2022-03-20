@@ -35,3 +35,12 @@ C:\Users\LENOVO\OneDrive\Documents\githup\Data-security\SecurityPackageTest\obj\
 C:\Users\LENOVO\OneDrive\Documents\githup\Data-security\SecurityPackageTest\obj\Debug\SecurityPackageTest.csproj.CopyComplete
 C:\Users\LENOVO\OneDrive\Documents\githup\Data-security\SecurityPackageTest\obj\Debug\SecurityPackageTest.dll
 C:\Users\LENOVO\OneDrive\Documents\githup\Data-security\SecurityPackageTest\obj\Debug\SecurityPackageTest.pdb
+E:\last year\security\Network-Security\SecurityPackageTest\bin\Debug\SecurityPackageTest.dll
+E:\last year\security\Network-Security\SecurityPackageTest\bin\Debug\SecurityPackageTest.pdb
+E:\last year\security\Network-Security\SecurityPackageTest\bin\Debug\SecurityLibrary.dll
+E:\last year\security\Network-Security\SecurityPackageTest\bin\Debug\SecurityLibrary.pdb
+E:\last year\security\Network-Security\SecurityPackageTest\obj\Debug\SecurityPackageTest.csproj.AssemblyReference.cache
+E:\last year\security\Network-Security\SecurityPackageTest\obj\Debug\SecurityPackageTest.csproj.CoreCompileInputs.cache
+E:\last year\security\Network-Security\SecurityPackageTest\obj\Debug\SecurityPackageTest.csproj.CopyComplete
+E:\last year\security\Network-Security\SecurityPackageTest\obj\Debug\SecurityPackageTest.dll
+E:\last year\security\Network-Security\SecurityPackageTest\obj\Debug\SecurityPackageTest.pdb
