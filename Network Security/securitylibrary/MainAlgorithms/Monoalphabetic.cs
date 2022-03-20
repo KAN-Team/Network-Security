@@ -132,11 +132,36 @@ namespace SecurityLibrary
         /// <returns>Plain text</returns>
         public string AnalyseUsingCharFrequency(string cipher)
         {
+            string output;
             alphabets.Clear();
             alphabets.AddRange("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+
             List<char> freq = new List<char>();
-            freq.AddRange("ETAOINSRHLDCUMFPGWYBVKJQZ");
-            return "";
+            freq.AddRange("ETAOINSRHLDCUMFPGWYBVKXJQZ");
+
+            Dictionary<char, int> CT = new Dictionary<char, int>();
+            CT = countChar(cipher.ToLower());
+            output = cipher;
+            for (int i = 0; i < CT.Count ; i++)
+            {
+                output = output.Replace(CT.Keys.ElementAt(i), freq[i]);
+            }
+            return output;
+        }
+        public Dictionary<char, int> countChar(string cipher)
+        {
+            Dictionary<char, int> CT = new Dictionary<char, int>();
+            foreach (char c in cipher)
+            {
+                if (!CT.ContainsKey(c))
+                    CT.Add(c, 1);
+                else
+                {
+                    CT[c] += 1;
+                }
+            }
+            var ordered = CT.OrderByDescending(key => key.Value).ToDictionary(x => x.Key, x => x.Value);
+            return ordered;
         }
     }
 }
