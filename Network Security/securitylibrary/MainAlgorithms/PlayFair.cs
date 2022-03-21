@@ -87,17 +87,17 @@ namespace SecurityLibrary
             string output = "";
             for (int i = 0; i < splited.Count; i++)
             {
-                if(i< splited.Count-1)
-                if (splited[i][1].Equals('X') && splited[i][0] == splited[i + 1][0])
-                {
-                    splited[i].Remove(1, 1);
-                    output += splited[i][0];
-                }
-                else
-                {
-                    output += splited[i][0];
-                    output += splited[i][1];
-                }
+                if (i < splited.Count - 1)
+                    if (splited[i][1].Equals('X') && splited[i][0] == splited[i + 1][0])
+                    {
+                        splited[i].Remove(1, 1);
+                        output += splited[i][0];
+                    }
+                    else
+                    {
+                        output += splited[i][0];
+                        output += splited[i][1];
+                    }
             }
             // remove last X
             if (splited[splited.Count - 1][1].Equals('X'))
@@ -108,7 +108,7 @@ namespace SecurityLibrary
             {
                 output += splited[splited.Count - 1][0];
                 output += splited[splited.Count - 1][1];
-            }   
+            }
             decrypted = output;
             return decrypted;
         }
