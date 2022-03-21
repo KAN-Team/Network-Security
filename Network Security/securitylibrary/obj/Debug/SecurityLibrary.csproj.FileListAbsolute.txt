@@ -17,9 +17,9 @@ C:\Users\LENOVO\OneDrive\Documents\githup\Data-security\SecurityLibrary\bin\Debu
 C:\Users\LENOVO\OneDrive\Documents\githup\Data-security\SecurityLibrary\obj\Debug\SecurityLibrary.csproj.CoreCompileInputs.cache
 C:\Users\LENOVO\OneDrive\Documents\githup\Data-security\SecurityLibrary\obj\Debug\SecurityLibrary.dll
 C:\Users\LENOVO\OneDrive\Documents\githup\Data-security\SecurityLibrary\obj\Debug\SecurityLibrary.pdb
-E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\Network Security\SecurityLibrary\bin\Debug\SecurityLibrary.dll
-E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\Network Security\SecurityLibrary\bin\Debug\SecurityLibrary.pdb
-E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\Network Security\SecurityLibrary\obj\Debug\SecurityLibrary.csproj.AssemblyReference.cache
-E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\Network Security\SecurityLibrary\obj\Debug\SecurityLibrary.csproj.CoreCompileInputs.cache
-E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\Network Security\SecurityLibrary\obj\Debug\SecurityLibrary.dll
-E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\Network Security\SecurityLibrary\obj\Debug\SecurityLibrary.pdb
+E:\last year\security\Network-Security\SecurityLibrary\bin\Debug\SecurityLibrary.dll
+E:\last year\security\Network-Security\SecurityLibrary\bin\Debug\SecurityLibrary.pdb
+E:\last year\security\Network-Security\SecurityLibrary\obj\Debug\SecurityLibrary.csproj.AssemblyReference.cache
+E:\last year\security\Network-Security\SecurityLibrary\obj\Debug\SecurityLibrary.csproj.CoreCompileInputs.cache
+E:\last year\security\Network-Security\SecurityLibrary\obj\Debug\SecurityLibrary.dll
+E:\last year\security\Network-Security\SecurityLibrary\obj\Debug\SecurityLibrary.pdb
