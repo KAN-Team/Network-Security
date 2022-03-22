@@ -23,3 +23,9 @@ E:\last year\security\Network-Security\SecurityLibrary\obj\Debug\SecurityLibrary
 E:\last year\security\Network-Security\SecurityLibrary\obj\Debug\SecurityLibrary.csproj.CoreCompileInputs.cache
 E:\last year\security\Network-Security\SecurityLibrary\obj\Debug\SecurityLibrary.dll
 E:\last year\security\Network-Security\SecurityLibrary\obj\Debug\SecurityLibrary.pdb
+E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\Network Security\SecurityLibrary\bin\Debug\SecurityLibrary.dll
+E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\Network Security\SecurityLibrary\bin\Debug\SecurityLibrary.pdb
+E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\Network Security\SecurityLibrary\obj\Debug\SecurityLibrary.csproj.AssemblyReference.cache
+E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\Network Security\SecurityLibrary\obj\Debug\SecurityLibrary.csproj.CoreCompileInputs.cache
+E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\Network Security\SecurityLibrary\obj\Debug\SecurityLibrary.dll
+E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\Network Security\SecurityLibrary\obj\Debug\SecurityLibrary.pdb

@@ -30,6 +30,7 @@ namespace SecurityLibrary
             cipherText = cipherText.ToLower();                                  // the below code works only
             key = key.ToLower();                                                // with the small case letters
             char[,] tableau = getTableau();
+
             StringBuilder plainText = new StringBuilder("");
             for (int i = 0; i < cipherText.Length; ++i)
             {
@@ -43,6 +44,7 @@ namespace SecurityLibrary
                         break;
                     }
             }
+
             return plainText.ToString();
         }
 
