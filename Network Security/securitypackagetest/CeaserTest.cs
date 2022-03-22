@@ -23,28 +23,13 @@ namespace SecurityPackageTest
         string newCipher = "WKHTXLFNEURZQIRAMXPSVRYHUWKHODCBGRJ".ToUpper();
         int newKey = 3;
 
+        // ================= ENCRYPTION ================= //
         [TestMethod]
         public void CeaserTestEnc1()
         {
             Ceaser algorithm = new Ceaser();
             string cipher = algorithm.Encrypt(mainPlain, mainKey);
             Assert.IsTrue(cipher.Equals(mainCipher, StringComparison.InvariantCultureIgnoreCase));
-        }
-
-        [TestMethod]
-        public void CeaserTestDec1()
-        {
-            Ceaser algorithm = new Ceaser();
-            string plain = algorithm.Decrypt(mainCipher, mainKey);
-            Assert.IsTrue(plain.Equals(mainPlain, StringComparison.InvariantCultureIgnoreCase));
-        }
-
-        [TestMethod]
-        public void CeaserTestAnalysis1()
-        {
-            Ceaser algorithm = new Ceaser();
-            int key = algorithm.Analyse(mainPlain, mainCipher);
-            Assert.AreEqual(mainKey, key);
         }
 
         [TestMethod]
@@ -56,27 +41,36 @@ namespace SecurityPackageTest
         }
 
         [TestMethod]
-        public void CeaserTestDec2()
-        {
-            Ceaser algorithm = new Ceaser();
-            string plain = algorithm.Decrypt(mainCipher1, mainKey1);
-            Assert.IsTrue(plain.Equals(mainPlain1, StringComparison.InvariantCultureIgnoreCase));
-        }
-
-        [TestMethod]
-        public void CeaserTestAnalysis2()
-        {
-            Ceaser algorithm = new Ceaser();
-            int key = algorithm.Analyse(mainPlain1, mainCipher1);
-            Assert.AreEqual(mainKey1, key);
-        }
-
-        [TestMethod]
         public void CeaserTestEnc3()
         {
             Ceaser algorithm = new Ceaser();
             string cipher = algorithm.Encrypt(mainPlain2, mainKey2);
             Assert.IsTrue(cipher.Equals(mainCipher2, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        [TestMethod]
+        public void CeaserTestNewEnc1()
+        {
+            Ceaser algorithm = new Ceaser();
+            string cipher = algorithm.Encrypt(newPlain, newKey);
+            Assert.IsTrue(cipher.Equals(newCipher, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        // ================= DECRYPTION ================= //
+        [TestMethod]
+        public void CeaserTestDec1()
+        {
+            Ceaser algorithm = new Ceaser();
+            string plain = algorithm.Decrypt(mainCipher, mainKey);
+            Assert.IsTrue(plain.Equals(mainPlain, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        [TestMethod]
+        public void CeaserTestDec2()
+        {
+            Ceaser algorithm = new Ceaser();
+            string plain = algorithm.Decrypt(mainCipher1, mainKey1);
+            Assert.IsTrue(plain.Equals(mainPlain1, StringComparison.InvariantCultureIgnoreCase));
         }
 
         [TestMethod]
@@ -88,27 +82,36 @@ namespace SecurityPackageTest
         }
 
         [TestMethod]
-        public void CeaserTestAnalysis3()
-        {
-            Ceaser algorithm = new Ceaser();
-            int key = algorithm.Analyse(mainPlain2, mainCipher2);
-            Assert.AreEqual(mainKey2, key);
-        }
-
-        [TestMethod]
-        public void CeaserTestNewEnc1()
-        {
-            Ceaser algorithm = new Ceaser();
-            string cipher = algorithm.Encrypt(newPlain, newKey);
-            Assert.IsTrue(cipher.Equals(newCipher, StringComparison.InvariantCultureIgnoreCase));
-        }
-
-        [TestMethod]
         public void CeaserTestNewDec1()
         {
             Ceaser algorithm = new Ceaser();
             string plain = algorithm.Decrypt(newCipher, newKey);
             Assert.IsTrue(plain.Equals(newPlain, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        // ================= ANALYSIS ================= //
+        [TestMethod]
+        public void CeaserTestAnalysis1()
+        {
+            Ceaser algorithm = new Ceaser();
+            int key = algorithm.Analyse(mainPlain, mainCipher);
+            Assert.AreEqual(mainKey, key);
+        }
+
+        [TestMethod]
+        public void CeaserTestAnalysis2()
+        {
+            Ceaser algorithm = new Ceaser();
+            int key = algorithm.Analyse(mainPlain1, mainCipher1);
+            Assert.AreEqual(mainKey1, key);
+        }
+
+        [TestMethod]
+        public void CeaserTestAnalysis3()
+        {
+            Ceaser algorithm = new Ceaser();
+            int key = algorithm.Analyse(mainPlain2, mainCipher2);
+            Assert.AreEqual(mainKey2, key);
         }
 
         [TestMethod]

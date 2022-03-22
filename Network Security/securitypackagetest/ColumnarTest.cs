@@ -30,6 +30,7 @@ namespace SecurityPackageTest
         
         List<int> newKey = new List<int>() { 3, 2, 6, 4, 1, 5 };
 
+        // ================= ENCRYPTION ================= //
         [TestMethod]
         public void ColumnarTestEnc1()
         {
@@ -38,29 +39,6 @@ namespace SecurityPackageTest
             // Add x's or not
             Assert.IsTrue(cipher.Equals(mainCipher1, StringComparison.InvariantCultureIgnoreCase)
                        || cipher.Equals(mainCipher2, StringComparison.InvariantCultureIgnoreCase));
-        }
-
-        [TestMethod]
-        public void ColumnarTestDec1()
-        {
-            Columnar algorithm = new Columnar();
-            string plain1 = algorithm.Decrypt(mainCipher1, mainkey);
-            string plain2 = algorithm.Decrypt(mainCipher2, mainkey);
-
-            Assert.IsTrue(plain1.Equals(mainPlain1, StringComparison.InvariantCultureIgnoreCase)
-             || plain2.Equals(mainPlain2, StringComparison.InvariantCultureIgnoreCase));
-        }
-
-        [TestMethod]
-        public void ColumnarTestAnalysis1()
-        {
-            Columnar algorithm = new Columnar();
-            List<int> key1 = algorithm.Analyse(mainPlain1, mainCipher1);
-            List<int> key2 = algorithm.Analyse(mainPlain2, mainCipher2);
-            for (int i = 0; i < mainkey.Count; i++)
-            {
-                Assert.IsTrue(mainkey[i] == key1[i] || mainkey[i] == key2[i]);
-            }
         }
 
         [TestMethod]
@@ -80,6 +58,27 @@ namespace SecurityPackageTest
             Assert.IsTrue(cipher.Equals(mainCipher4, StringComparison.InvariantCultureIgnoreCase)
                        || cipher.Equals(mainCipher5, StringComparison.InvariantCultureIgnoreCase));
         }
+
+        [TestMethod]
+        public void ColumnarNewTestEnc()
+        {
+            Columnar algorithm = new Columnar();
+            string cipher = algorithm.Encrypt(newPlain, newKey);
+            Assert.IsTrue(cipher.Equals(newCipher, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        // ================= DECRYPTION ================= //
+        [TestMethod]
+        public void ColumnarTestDec1()
+        {
+            Columnar algorithm = new Columnar();
+            string plain1 = algorithm.Decrypt(mainCipher1, mainkey);
+            string plain2 = algorithm.Decrypt(mainCipher2, mainkey);
+
+            Assert.IsTrue(plain1.Equals(mainPlain1, StringComparison.InvariantCultureIgnoreCase)
+             || plain2.Equals(mainPlain2, StringComparison.InvariantCultureIgnoreCase));
+        }
+
         [TestMethod]
         public void ColumnarTestDec2()
         {
@@ -98,6 +97,28 @@ namespace SecurityPackageTest
 
             Assert.IsTrue(plain1.Equals(mainPlain3, StringComparison.InvariantCultureIgnoreCase)
              || plain2.Equals(mainPlain4, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        [TestMethod]
+        public void ColumnarNewTestDec()
+        {
+            Columnar algorithm = new Columnar();
+            string plain1 = algorithm.Decrypt(newCipher, newKey);
+
+            Assert.IsTrue(plain1.Equals(newPlain, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        // ================= ANALYSIS ================= //
+        [TestMethod]
+        public void ColumnarTestAnalysis1()
+        {
+            Columnar algorithm = new Columnar();
+            List<int> key1 = algorithm.Analyse(mainPlain1, mainCipher1);
+            List<int> key2 = algorithm.Analyse(mainPlain2, mainCipher2);
+            for (int i = 0; i < mainkey.Count; i++)
+            {
+                Assert.IsTrue(mainkey[i] == key1[i] || mainkey[i] == key2[i]);
+            }
         }
 
         [TestMethod]
@@ -123,23 +144,6 @@ namespace SecurityPackageTest
             {
                 Assert.IsTrue(mainkey2[i] == key1[i] || mainkey2[i] == key2[i]);
             }
-        }
-
-        [TestMethod]
-        public void ColumnarNewTestEnc()
-        {
-            Columnar algorithm = new Columnar();
-            string cipher = algorithm.Encrypt(newPlain, newKey);
-            Assert.IsTrue(cipher.Equals(newCipher, StringComparison.InvariantCultureIgnoreCase));
-        }
-
-        [TestMethod]
-        public void ColumnarNewTestDec()
-        {
-            Columnar algorithm = new Columnar();
-            string plain1 = algorithm.Decrypt(newCipher, newKey);
-
-            Assert.IsTrue(plain1.Equals(newPlain, StringComparison.InvariantCultureIgnoreCase));
         }
 
         [TestMethod]
