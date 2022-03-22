@@ -8,8 +8,41 @@ namespace SecurityLibrary
 {
     public class PlayFair : ICryptographic_Technique<string, string>
     {
-        List<char> alphabets = new List<char>();
-        int row1, row2, col1, col2;
+        private List<char> alphabets = new List<char>();
+        private int row1, row2, col1, col2;
+
+        public string Encrypt(string plainText, string key)
+        {
+            char[,] matrix = new char[5, 5];
+            matrix = CreateMatrix(key.ToUpper());
+            List<string> splitted = new List<string>();
+            string encrypted = "";
+            splitted = splitString(plainText.ToUpper());
+            int type;
+            foreach (string part in splitted)
+            {
+                type = search(part, matrix);
+                switch (type)
+                {
+                    case 1: //same row
+                        encrypted += matrix[row1, (col1 + 1) % 5];
+                        encrypted += matrix[row2, (col2 + 1) % 5];
+                        break;
+                    case 2: // same col
+                        encrypted += matrix[(row1 + 1) % 5, col1];
+                        encrypted += matrix[(row2 + 1) % 5, col2];
+                        break;
+                    case 3: // diagonal
+                        encrypted += matrix[row1, col2];
+                        encrypted += matrix[row2, col1];
+                        break;
+                }
+
+
+            }
+
+            return encrypted;
+        }
 
         public string Decrypt(string cipherText, string key)
         {
@@ -113,40 +146,8 @@ namespace SecurityLibrary
             return decrypted;
         }
 
-        public string Encrypt(string plainText, string key)
-        {
-            char[,] matrix = new char[5, 5];
-            matrix = CreateMatrix(key.ToUpper());
-            List<string> splitted = new List<string>();
-            string encrypted = "";
-            splitted = splitString(plainText.ToUpper());
-            int type;
-            foreach (string part in splitted)
-            {
-                type = search(part, matrix);
-                switch (type)
-                {
-                    case 1: //same row
-                        encrypted += matrix[row1, (col1 + 1) % 5];
-                        encrypted += matrix[row2, (col2 + 1) % 5];
-                        break;
-                    case 2: // same col
-                        encrypted += matrix[(row1 + 1) % 5, col1];
-                        encrypted += matrix[(row2 + 1) % 5, col2];
-                        break;
-                    case 3: // diagonal
-                        encrypted += matrix[row1, col2];
-                        encrypted += matrix[row2, col1];
-                        break;
-                }
-
-
-            }
-
-            return encrypted;
-        }
-
-        public char[,] CreateMatrix(string k)
+        #region HELPERS
+        private char[,] CreateMatrix(string k)
         {
             alphabets.Clear();
             alphabets.AddRange("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
@@ -205,7 +206,7 @@ namespace SecurityLibrary
             }
             return matrix;
         }
-        public bool ContainElement(char[,] matrix, char element)
+        private bool ContainElement(char[,] matrix, char element)
         {
             for (int i = 0; i < 5; i++)
             {
@@ -219,7 +220,7 @@ namespace SecurityLibrary
             }
             return false;
         }
-        public List<string> splitString(string text)
+        private List<string> splitString(string text)
         {
             int count = 0;
             int j = 0;
@@ -261,7 +262,7 @@ namespace SecurityLibrary
             }
             return splitted;
         }
-        public int search(string part, char[,] matrix)
+        private int search(string part, char[,] matrix)
         {
             int type = 0;
 
@@ -296,5 +297,6 @@ namespace SecurityLibrary
 
             return type;
         }
+        #endregion
     }
 }

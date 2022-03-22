@@ -8,6 +8,82 @@ namespace SecurityLibrary
 {
     public class RailFence : ICryptographicTechnique<string, int>
     {
+        public string Encrypt(string plainText, int key)
+        {
+            int MatrixDepth = key;
+            int MatrixLength = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(plainText.Length) / Convert.ToDouble(MatrixDepth)));
+            char[,] Plain2dMatrix = new char[MatrixDepth, MatrixLength];
+            char[] PlainCharArray = plainText.ToCharArray();
+
+            //convert plain char array to 2d matrix (column wise)
+            for (int Length = 0, IndexCounter = 0; Length < MatrixLength; Length++)
+            {
+                for (int Depth = 0; Depth < MatrixDepth; Depth++, IndexCounter++)
+                {
+                    if (IndexCounter >= PlainCharArray.Length)
+                        Plain2dMatrix[Depth, Length] = '~';
+                    else
+                        Plain2dMatrix[Depth, Length] = PlainCharArray[IndexCounter];
+                }
+            }
+
+            char[] cipher = new char[plainText.Length];
+
+            //convert 2d plain matrix to cipher char arr (row wise)
+            for (int Depth = 0, IndexCounter = 0; Depth < MatrixDepth; Depth++)
+            {
+                for (int Length = 0; Length < MatrixLength; Length++, IndexCounter++)
+                {
+                    if (Plain2dMatrix[Depth, Length] == '~')
+                    {
+                        IndexCounter--;  // skip the iteration but keeps the IndexCounter current value
+                        continue;
+                    }
+                    cipher[IndexCounter] = Plain2dMatrix[Depth, Length];
+                }
+            }
+            return string.Concat(cipher);
+        }
+
+        public string Decrypt(string cipherText, int key)
+        {
+            int TextLenght = cipherText.Length;
+            int MatrixDepth = key;
+            int MatrixLenght = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(TextLenght) / Convert.ToDouble(MatrixDepth)));
+            char[,] Cipher2dMatrix = new char[MatrixDepth, MatrixLenght];
+            char[] CipherCharArr = cipherText.ToCharArray();
+
+            //convert cipher char arr to 2d matrix (row wise)
+            for (int Depth = 0, IndexCounter = 0; Depth < MatrixDepth; Depth++)
+            {
+                int remaining_matrix_lenght = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(TextLenght) / Convert.ToDouble(MatrixDepth - Depth)));
+
+                for (int Lenght = 0; Lenght < remaining_matrix_lenght; Lenght++, IndexCounter++)
+                {
+                    if (IndexCounter == CipherCharArr.Length)
+                        break;
+                    Cipher2dMatrix[Depth, Lenght] = CipherCharArr[IndexCounter];
+                }
+                TextLenght -= remaining_matrix_lenght;
+            }
+
+            char[] plain = new char[cipherText.Length];
+
+            //convert cipher 2d matrix to plain char arr (column wise)
+            for (int Lenght = 0, IndexCounter = 0; Lenght < MatrixLenght; Lenght++)
+            {
+                for (int Depth = 0; Depth < MatrixDepth; Depth++, IndexCounter++)
+                {
+                    if (IndexCounter == CipherCharArr.Length)
+                        break;
+                    plain[IndexCounter] = Cipher2dMatrix[Depth, Lenght];
+                }
+            }
+
+            return string.Concat(plain);
+
+        }
+
         public int Analyse(string plainText, string cipherText)
         {
             int TextLenght = cipherText.Length;
@@ -79,79 +155,6 @@ namespace SecurityLibrary
             //    if (check_counter == Divisors.Key) break;
             //}
             //return matrix_depth;
-        }
-
-        public string Decrypt(string cipherText, int key)
-        {
-            int TextLenght = cipherText.Length;
-            int MatrixDepth = key;
-            int MatrixLenght = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(TextLenght) / Convert.ToDouble(MatrixDepth)));
-            char[,] Cipher2dMatrix = new char[MatrixDepth, MatrixLenght];
-            char[] CipherCharArr = cipherText.ToCharArray();
-
-            //convert cipher char arr to 2d matrix (row wise)
-            for (int Depth = 0, IndexCounter = 0; Depth < MatrixDepth; Depth++)
-            {
-                int remaining_matrix_lenght = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(TextLenght) / Convert.ToDouble(MatrixDepth - Depth)));
-
-                for (int Lenght = 0; Lenght < remaining_matrix_lenght; Lenght++, IndexCounter++)
-                {
-                    if (IndexCounter == CipherCharArr.Length)
-                        break;
-                    Cipher2dMatrix[Depth, Lenght] = CipherCharArr[IndexCounter];
-                }
-                TextLenght -= remaining_matrix_lenght;
-            }
-
-            char[] plain = new char[cipherText.Length];
-
-            //convert cipher 2d matrix to plain char arr (column wise)
-            for (int Lenght = 0, IndexCounter = 0; Lenght < MatrixLenght; Lenght++)
-            {
-                for (int Depth = 0; Depth < MatrixDepth; Depth++, IndexCounter++)
-                {
-                    if (IndexCounter == CipherCharArr.Length)
-                        break;
-                    plain[IndexCounter] = Cipher2dMatrix[Depth, Lenght];
-                }
-            }
-
-            return string.Concat(plain);
-
-        }
-
-        public string Encrypt(string plainText, int key)
-        {
-            int MatrixDepth = key;
-            int MatrixLenght = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(plainText.Length) / Convert.ToDouble(MatrixDepth)));
-            char[,] Plain2dMatrix = new char[MatrixDepth, MatrixLenght];
-            char[] PlainCharArray = plainText.ToCharArray();
-
-            //convert plain char array to 2d matrix (column wise)
-            for (int Lenght = 0, IndexCounter = 0; Lenght < MatrixLenght; Lenght++)
-            {
-                for (int Depth = 0; Depth < MatrixDepth; Depth++, IndexCounter++)
-                {
-                    if (IndexCounter >= PlainCharArray.Length)
-                        Plain2dMatrix[Depth, Lenght] = 'x';
-                    else
-                        Plain2dMatrix[Depth, Lenght] = PlainCharArray[IndexCounter];
-
-                }
-            }
-
-            char[] cipher = new char[MatrixLenght * MatrixDepth];
-
-            //convert 2d plain matrix to cipher char arr (row wise)
-            for (int Depth = 0, IndexCounter = 0; Depth < MatrixDepth; Depth++)
-            {
-                for (int Lenght = 0; Lenght < MatrixLenght; Lenght++, IndexCounter++)
-                {
-                    if (Plain2dMatrix[Depth, Lenght] == 0) continue;
-                    cipher[IndexCounter] = Plain2dMatrix[Depth, Lenght];
-                }
-            }
-            return string.Concat(cipher);
         }
     }
 }

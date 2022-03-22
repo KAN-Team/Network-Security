@@ -22,6 +22,7 @@ namespace SecurityPackageTest
         string newCipher = "NTIGSSTEMOHNIAISES";
         int newkey = 2;
 
+        // ================= ENCRYPTION ================= //
         [TestMethod]
         public void RailFenceTestEnc1()
         {
@@ -31,29 +32,30 @@ namespace SecurityPackageTest
         }
 
         [TestMethod]
-        public void RailFenceTestDec1()
-        {
-            RailFence algorithm = new RailFence();
-            string plain = algorithm.Decrypt(mainCipher, mainKey);
-            Assert.IsTrue(plain.Equals(mainPlain1, StringComparison.InvariantCultureIgnoreCase));
-        }
-
-        [TestMethod]
-        public void RailFenceTestAnalysis1()
-        {
-            RailFence algorithm = new RailFence();
-            int key = algorithm.Analyse(mainPlain1, mainCipher);
-            Assert.AreEqual(mainKey, key);
-        }
-
-        [TestMethod]
         public void RailFenceTestEnc2()
         {
             RailFence algorithm = new RailFence();
             string cipher = algorithm.Encrypt(mainPlain1, mainKey2);
             // Add x's or not
-            Assert.IsTrue(cipher.Equals(mainCipher2, StringComparison.InvariantCultureIgnoreCase) 
+            Assert.IsTrue(cipher.Equals(mainCipher2, StringComparison.InvariantCultureIgnoreCase)
                        || cipher.Equals(mainCipher3, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        [TestMethod]
+        public void RailFenceTestNewEnc()
+        {
+            RailFence algorithm = new RailFence();
+            string cipher = algorithm.Encrypt(newPlain, newkey);
+            Assert.IsTrue(cipher.Equals(newCipher, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        // ================= DECRYPTION ================= //
+        [TestMethod]
+        public void RailFenceTestDec1()
+        {
+            RailFence algorithm = new RailFence();
+            string plain = algorithm.Decrypt(mainCipher, mainKey);
+            Assert.IsTrue(plain.Equals(mainPlain1, StringComparison.InvariantCultureIgnoreCase));
         }
 
         [TestMethod]
@@ -69,24 +71,6 @@ namespace SecurityPackageTest
         }
 
         [TestMethod]
-        public void RailFenceTestAnalysis2()
-        {
-            RailFence algorithm = new RailFence();
-            int key = algorithm.Analyse(mainPlain1, mainCipher2);
-            int key2 = algorithm.Analyse(mainPlain1, mainCipher3);
-            Assert.IsTrue(mainKey2 ==  key || mainKey2 == key2);
-        }
-
-
-        [TestMethod]
-        public void RailFenceTestNewEnc()
-        {
-            RailFence algorithm = new RailFence();
-            string cipher = algorithm.Encrypt(newPlain, newkey);
-            Assert.IsTrue(cipher.Equals(newCipher, StringComparison.InvariantCultureIgnoreCase));
-        }
-
-        [TestMethod]
         public void RailFenceTestNewDec()
         {
             RailFence algorithm = new RailFence();
@@ -94,6 +78,24 @@ namespace SecurityPackageTest
             Assert.IsTrue(plain.Equals(newPlain, StringComparison.InvariantCultureIgnoreCase));
         }
 
+        // ================= ANALYSIS ================= //
+        [TestMethod]
+        public void RailFenceTestAnalysis1()
+        {
+            RailFence algorithm = new RailFence();
+            int key = algorithm.Analyse(mainPlain1, mainCipher);
+            Assert.AreEqual(mainKey, key);
+        }
+
+        [TestMethod]
+        public void RailFenceTestAnalysis2()
+        {
+            RailFence algorithm = new RailFence();
+            int key = algorithm.Analyse(mainPlain1, mainCipher2);
+            int key2 = algorithm.Analyse(mainPlain1, mainCipher3);
+            Assert.IsTrue(mainKey2 ==  key || mainKey2 == key2);
+        }
+        
         [TestMethod]
         public void RailFenceTestNewAnalysis()
         {

@@ -8,6 +8,87 @@ namespace SecurityLibrary
 {
     public class Columnar : ICryptographicTechnique<string, List<int>>
     {
+        public string Encrypt(string plainText, List<int> key)
+        {
+            List<int> NewKey = SortingNewKey(key);
+
+            int TextLenght = plainText.Length;
+            int MatrixLenght = key.Count;
+            int MatrixDepth = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(TextLenght) / Convert.ToDouble(MatrixLenght)));
+
+            char[,] Plain2dMatrix = new char[MatrixDepth, MatrixLenght];
+            char[] PlainCharArr = plainText.ToCharArray();
+
+            //convert plain char arr to 2d matrix (row wise)
+            for (int Depth = 0, IndexCount = 0; Depth < MatrixDepth; Depth++)
+            {
+                for (int Lenght = 0; Lenght < MatrixLenght; Lenght++, IndexCount++)
+                {
+                    if (IndexCount >= TextLenght)
+                        Plain2dMatrix[Depth, Lenght] = 'X';
+                    else
+                        Plain2dMatrix[Depth, Lenght] = PlainCharArr[IndexCount];
+                }
+            }
+
+            char[] Cipher = new char[MatrixDepth * MatrixLenght];
+            char[,] SwapedCipher2dMatrix = new char[MatrixDepth, MatrixLenght];
+
+            //generate cipher matrix using the new key and convert cipher 2d matrix to char arr (column wise)
+            for (int Lenght = 0, IndexCount = 0; Lenght < MatrixLenght; Lenght++)
+            {
+                for (int Depth = 0; Depth < MatrixDepth; Depth++, IndexCount++)
+                {
+
+                    if (Plain2dMatrix[Depth, NewKey[Lenght]] == 0) continue;
+                    SwapedCipher2dMatrix[Depth, Lenght] = Plain2dMatrix[Depth, NewKey[Lenght]];
+                    if (SwapedCipher2dMatrix[Depth, Lenght] == 0) continue;
+                    Cipher[IndexCount] = SwapedCipher2dMatrix[Depth, Lenght];
+                }
+            }
+
+            return string.Concat(Cipher);
+        }
+
+        public string Decrypt(string cipherText, List<int> key)
+        {
+
+            List<int> NewKey = SortingNewKey(key);
+
+            int Text_lenght = cipherText.Length;
+            int MatrixLenght = key.Count;
+            int MatrixDepth = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(Text_lenght) / Convert.ToDouble(MatrixLenght)));
+
+            char[] CipherCharArr = cipherText.ToCharArray();
+            char[] PlainCharArr = new char[cipherText.Length];
+            char[,] SwapedCipher2dMatrix = new char[MatrixDepth, MatrixLenght];
+            char[,] Cipher2dMatrix = new char[MatrixDepth, MatrixLenght];
+
+            //convert cipher char arr to 2d matrix (column wise) and swap it using key list
+            for (int Lenght = 0, IndexCount = 0; Lenght < MatrixLenght; Lenght++)
+            {
+                for (int Depth = 0; Depth < MatrixDepth; Depth++, IndexCount++)
+                {
+                    if (IndexCount == Text_lenght) break;
+                    Cipher2dMatrix[Depth, Lenght] = CipherCharArr[IndexCount];
+                    if (Cipher2dMatrix[Depth, Lenght] == 0) continue;
+                    SwapedCipher2dMatrix[Depth, NewKey[Lenght]] = Cipher2dMatrix[Depth, Lenght];
+                }
+            }
+
+            //convert swaped 2d cipher matrix to char array (row wise)
+            for (int Depth = 0, IndexCount = 0; Depth < MatrixDepth; Depth++)
+            {
+                for (int Lenght = 0; Lenght < MatrixLenght; Lenght++, IndexCount++)
+                {
+                    if (IndexCount == Text_lenght) break;
+                    if (SwapedCipher2dMatrix[Depth, Lenght] == 0) continue;
+                    PlainCharArr[IndexCount] = SwapedCipher2dMatrix[Depth, Lenght];
+                }
+            }
+            return string.Concat(PlainCharArr).ToLower();
+        }
+
         public List<int> Analyse(string plainText, string cipherText)
         {
             int TextLenght = cipherText.Length;
@@ -89,90 +170,9 @@ namespace SecurityLibrary
 
             return Key;
         }
-
-
-        public string Decrypt(string cipherText, List<int> key)
-        {
-
-            List<int> NewKey = SortingNewKey(key);
-
-            int Text_lenght = cipherText.Length;
-            int MatrixLenght = key.Count;
-            int MatrixDepth = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(Text_lenght) / Convert.ToDouble(MatrixLenght)));
-
-            char[] CipherCharArr = cipherText.ToCharArray();
-            char[] PlainCharArr = new char[cipherText.Length];
-            char[,] SwapedCipher2dMatrix = new char[MatrixDepth, MatrixLenght];
-            char[,] Cipher2dMatrix = new char[MatrixDepth, MatrixLenght];
-
-            //convert cipher char arr to 2d matrix (column wise) and swap it using key list
-            for (int Lenght = 0, IndexCount = 0; Lenght < MatrixLenght; Lenght++)
-            {
-                for (int Depth = 0; Depth < MatrixDepth; Depth++, IndexCount++)
-                {
-                    if (IndexCount == Text_lenght) break;
-                    Cipher2dMatrix[Depth, Lenght] = CipherCharArr[IndexCount];
-                    if (Cipher2dMatrix[Depth, Lenght] == 0) continue;
-                    SwapedCipher2dMatrix[Depth, NewKey[Lenght]] = Cipher2dMatrix[Depth, Lenght];
-                }
-            }
-
-            //convert swaped 2d cipher matrix to char array (row wise)
-            for (int Depth = 0, IndexCount = 0; Depth < MatrixDepth; Depth++)
-            {
-                for (int Lenght = 0; Lenght < MatrixLenght; Lenght++, IndexCount++)
-                {
-                    if (IndexCount == Text_lenght) break;
-                    if (SwapedCipher2dMatrix[Depth, Lenght] == 0) continue;
-                    PlainCharArr[IndexCount] = SwapedCipher2dMatrix[Depth, Lenght];
-                }
-            }
-            return string.Concat(PlainCharArr).ToLower();
-        }
-
-        public string Encrypt(string plainText, List<int> key)
-        {
-            List<int> NewKey = SortingNewKey(key);
-
-            int TextLenght = plainText.Length;
-            int MatrixLenght = key.Count;
-            int MatrixDepth = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(TextLenght) / Convert.ToDouble(MatrixLenght)));
-
-            char[,] Plain2dMatrix = new char[MatrixDepth, MatrixLenght];
-            char[] PlainCharArr = plainText.ToCharArray();
-
-            //convert plain char arr to 2d matrix (row wise)
-            for (int Depth = 0, IndexCount = 0; Depth < MatrixDepth; Depth++)
-            {
-                for (int Lenght = 0; Lenght < MatrixLenght; Lenght++, IndexCount++)
-                {
-                    if (IndexCount >= TextLenght)
-                        Plain2dMatrix[Depth, Lenght] = 'X';
-                    else
-                        Plain2dMatrix[Depth, Lenght] = PlainCharArr[IndexCount];
-                }
-            }
-
-            char[] Cipher = new char[MatrixDepth*MatrixLenght];
-            char[,] SwapedCipher2dMatrix = new char[MatrixDepth, MatrixLenght];
-
-            //generate cipher matrix using the new key and convert cipher 2d matrix to char arr (column wise)
-            for (int Lenght = 0, IndexCount = 0; Lenght < MatrixLenght; Lenght++)
-            {
-                for (int Depth = 0; Depth < MatrixDepth; Depth++, IndexCount++)
-                {
-                    
-                    if (Plain2dMatrix[Depth, NewKey[Lenght]] == 0) continue;
-                    SwapedCipher2dMatrix[Depth, Lenght] = Plain2dMatrix[Depth, NewKey[Lenght]];
-                    if (SwapedCipher2dMatrix[Depth, Lenght] == 0) continue;
-                    Cipher[IndexCount] = SwapedCipher2dMatrix[Depth, Lenght];
-                }
-            }
-
-            return string.Concat(Cipher);
-        }
-
-        public List<int> SortingNewKey(List<int> key)
+        
+        #region HELPERS
+        private List<int> SortingNewKey(List<int> key)
         {
             List<int> newkey = key.ToList();
             var key_dec = new Dictionary<int, int>();
@@ -190,5 +190,6 @@ namespace SecurityLibrary
             }
             return newkey;
         }
+        #endregion
     }
 }
