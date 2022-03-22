@@ -17,6 +17,7 @@ namespace SecurityPackageTest
         string newCipherAuto = "TWWNPZOAFMEOVULBZMEHYIYWBMTSTNL".ToUpper();
         string newKey = "HOUGHTON".ToLower();
 
+        // ========================= REPEATING VIGNERE TESTS ========================= //
         [TestMethod]
         public void RepVignereTestEnc1()
         {
@@ -42,30 +43,6 @@ namespace SecurityPackageTest
         }
 
         [TestMethod]
-        public void AutoVignereTestEnc1()
-        {
-            AutokeyVigenere algorithm = new AutokeyVigenere();
-            string cipher = algorithm.Encrypt(mainPlain, mainKey);
-            Assert.IsTrue(cipher.Equals(mainCipherAuto, StringComparison.InvariantCultureIgnoreCase));
-        }
-
-        [TestMethod]
-        public void AutoVignereTestDec1()
-        {
-            AutokeyVigenere algorithm = new AutokeyVigenere();
-            string plain = algorithm.Decrypt(mainCipherAuto, mainKey);
-            Assert.IsTrue(plain.Equals(mainPlain, StringComparison.InvariantCultureIgnoreCase));
-        }
-
-        [TestMethod]
-        public void AutoVignereTestAnalysis1()
-        {
-            AutokeyVigenere algorithm = new AutokeyVigenere();
-            string key = algorithm.Analyse(mainPlain, mainCipherAuto);
-            Assert.IsTrue(key.Equals(mainKey, StringComparison.InvariantCultureIgnoreCase));
-        }
-
-        [TestMethod]
         public void RepVignereTestNewEnc()
         {
             RepeatingkeyVigenere algorithm = new RepeatingkeyVigenere();
@@ -87,6 +64,31 @@ namespace SecurityPackageTest
             RepeatingkeyVigenere algorithm = new RepeatingkeyVigenere();
             string key = algorithm.Analyse(newPlain, newCipherRep);
             Assert.IsTrue(key.Equals(newKey, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        // ========================= AUTO VIGNERE TESTS ========================= //
+        [TestMethod]
+        public void AutoVignereTestEnc1()
+        {
+            AutokeyVigenere algorithm = new AutokeyVigenere();
+            string cipher = algorithm.Encrypt(mainPlain, mainKey);
+            Assert.IsTrue(cipher.Equals(mainCipherAuto, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        [TestMethod]
+        public void AutoVignereTestDec1()
+        {
+            AutokeyVigenere algorithm = new AutokeyVigenere();
+            string plain = algorithm.Decrypt(mainCipherAuto, mainKey);
+            Assert.IsTrue(plain.Equals(mainPlain, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        [TestMethod]
+        public void AutoVignereTestAnalysis1()
+        {
+            AutokeyVigenere algorithm = new AutokeyVigenere();
+            string key = algorithm.Analyse(mainPlain, mainCipherAuto);
+            Assert.IsTrue(key.Equals(mainKey, StringComparison.InvariantCultureIgnoreCase));
         }
 
         [TestMethod]
