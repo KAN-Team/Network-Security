@@ -12,22 +12,22 @@ We introduce a package with a fully completed techniques and algorithms for Mana
 - Ceaser algorithm 
 - Monoalphabetic algorithm
 - Playfair algorithm
-- Hill Cipher
-- Repeating Key
-- Auto Key
-- RailFence
-- Columnar
+- Hill Cipher algorithm
+- Polyalphabetic techniques
+- Transposition techniques
 
 ***
 
-#### Milestone \#1
+#### Milestone **1:**
 - Ceaser algorithm 
 - Monoalphabetic algorithm
 - Playfair algorithm 
 
-#### Milestone \#2
-- Hill Cipher
-- Repeating Key
-- Auto Key
-- RailFence
-- Columnar
+#### Milestone **2:**
+- Hill Cipher algorithm
+- Polyalphabetic techniques
+    - Repeating Key
+    - Auto Key
+- Transposition techniques
+    - RailFence
+    - Columnar
