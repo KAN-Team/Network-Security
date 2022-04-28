@@ -15,6 +15,8 @@ We introduce a package with a fully completed techniques and algorithms for Mana
 - Hill Cipher algorithm
 - Polyalphabetic techniques
 - Transposition techniques
+- AES algorithm
+- Extended Euclidean algorithm
 
 ***
 
@@ -31,3 +33,7 @@ We introduce a package with a fully completed techniques and algorithms for Mana
 - Transposition techniques
     - RailFence
     - Columnar
+
+#### Milestone **3:**
+- AES algorithm
+- Extended Euclidean algorithm
