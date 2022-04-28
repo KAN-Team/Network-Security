@@ -265,7 +265,7 @@ namespace SecurityLibrary.AES
 
         byte[,] MixCols(byte[,] shiftedMatrix)
         {
-            byte[] arrayXor = new byte[4];
+            byte[] xorArray = new byte[4];
             byte[,] mixedColsMatrix = new byte[4, 4];
             for (int i = 0; i < 4; i++)
             {
@@ -275,18 +275,18 @@ namespace SecurityLibrary.AES
                     {
                         if (galoisField[j, k] == 1)
                         {
-                            arrayXor[k] = shiftedMatrix[k, i];
+                            xorArray[k] = shiftedMatrix[k, i];
                         }
                         else if (galoisField[j, k] == 2)
                         {
-                            arrayXor[k] = MultiplyByTwo(shiftedMatrix[k, i]);
+                            xorArray[k] = MultiplyByTwo(shiftedMatrix[k, i]);
                         }
                         else if (galoisField[j, k] == 3)
                         {
-                            arrayXor[k] = Convert.ToByte(MultiplyByTwo(shiftedMatrix[k, i]) ^ shiftedMatrix[k, i]);
+                            xorArray[k] = MltiplyByThree(shiftedMatrix[k, i]);
                         }
                     }
-                    var cell = arrayXor[0] ^ arrayXor[1] ^ arrayXor[2] ^ arrayXor[3];
+                    var cell = xorArray[0] ^ xorArray[1] ^ xorArray[2] ^ xorArray[3];
                     mixedColsMatrix[j, i] = Convert.ToByte(cell);
                 }
             }
@@ -302,6 +302,13 @@ namespace SecurityLibrary.AES
             if (x > 127)
                 ans = Convert.ToByte(ans ^ 27);
             return ans;
+        }
+
+        byte MltiplyByThree(byte x)
+        {
+            //rule is: x*3 = (x*2) xor (x);
+            byte multiplyedByTwo = MultiplyByTwo(x);
+            return (Convert.ToByte(multiplyedByTwo ^ x));
         }
 
         byte[,] MixColsInverse(byte[,] shiftedmatrix)

@@ -35,9 +35,9 @@ E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\SecurityPackage\SecurityL
 E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\SecurityPackage\SecurityLibrary\obj\Debug\SecurityLibrary.csproj.CoreCompileInputs.cache
 E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\SecurityPackage\SecurityLibrary\obj\Debug\SecurityLibrary.dll
 E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\SecurityPackage\SecurityLibrary\obj\Debug\SecurityLibrary.pdb
-E:\GitHub\Network-Security\SecurityPackage\SecurityLibrary\bin\Debug\SecurityLibrary.dll
 E:\GitHub\Network-Security\SecurityPackage\SecurityLibrary\bin\Debug\SecurityLibrary.pdb
 E:\GitHub\Network-Security\SecurityPackage\SecurityLibrary\obj\Debug\SecurityLibrary.csproj.AssemblyReference.cache
 E:\GitHub\Network-Security\SecurityPackage\SecurityLibrary\obj\Debug\SecurityLibrary.csproj.CoreCompileInputs.cache
-E:\GitHub\Network-Security\SecurityPackage\SecurityLibrary\obj\Debug\SecurityLibrary.dll
 E:\GitHub\Network-Security\SecurityPackage\SecurityLibrary\obj\Debug\SecurityLibrary.pdb
+E:\GitHub\Network-Security\SecurityPackage\SecurityLibrary\bin\Debug\SecurityLibrary.exe
+E:\GitHub\Network-Security\SecurityPackage\SecurityLibrary\obj\Debug\SecurityLibrary.exe
