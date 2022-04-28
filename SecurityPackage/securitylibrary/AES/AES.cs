@@ -144,7 +144,7 @@ namespace SecurityLibrary.AES
 
             return arr;
         }
-        byte[] xor(byte[] first, byte[] second, byte[] third, int isMultipleOf4)
+        byte[] Xor(byte[] first, byte[] second, byte[] third, int isMultipleOf4)
         {
             byte[] arr = new byte[4];
             for (int i = 0; i < 4; i++)
@@ -223,10 +223,10 @@ namespace SecurityLibrary.AES
                     RconIndex++;
                     first = Rotword(first);
                     first = SubByte(first);
-                    final = xor(first, second, third, 1);
+                    final = Xor(first, second, third, 1);
                 }
                 else
-                    final = xor(first, second, third, 0);
+                    final = Xor(first, second, third, 0);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -401,17 +401,17 @@ namespace SecurityLibrary.AES
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    string tmp = Convert.ToString(matrix[i, j], 16);
+                    string cell = Convert.ToString(matrix[i, j], 16);
                     int newI, newJ;
-                    if (tmp.Length == 1)
+                    if (cell.Length == 1)
                     {
                         newI = 0;
-                        newJ = Convert.ToInt32(tmp[0].ToString(), 16);
+                        newJ = Convert.ToInt32(cell[0].ToString(), 16);
                     }
                     else
                     {
-                        newI = Convert.ToInt32(tmp[0].ToString(), 16);
-                        newJ = Convert.ToInt32(tmp[1].ToString(), 16);
+                        newI = Convert.ToInt32(cell[0].ToString(), 16);
+                        newJ = Convert.ToInt32(cell[1].ToString(), 16);
                     }
 
                     newMatrix[i, j] = sboxInverse[newI, newJ];
