@@ -62,3 +62,12 @@ E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\SecurityPackage\SecurityP
 E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\SecurityPackage\SecurityPackageTest\obj\Debug\SecurityPackageTest.csproj.CopyComplete
 E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\SecurityPackage\SecurityPackageTest\obj\Debug\SecurityPackageTest.dll
 E:\Projects\[GitHub]\KAN-Org\Projects\Network-Security\SecurityPackage\SecurityPackageTest\obj\Debug\SecurityPackageTest.pdb
+E:\GitHub\Network-Security\SecurityPackage\SecurityPackageTest\bin\Debug\SecurityPackageTest.dll
+E:\GitHub\Network-Security\SecurityPackage\SecurityPackageTest\bin\Debug\SecurityPackageTest.pdb
+E:\GitHub\Network-Security\SecurityPackage\SecurityPackageTest\bin\Debug\SecurityLibrary.pdb
+E:\GitHub\Network-Security\SecurityPackage\SecurityPackageTest\obj\Debug\SecurityPackageTest.csproj.AssemblyReference.cache
+E:\GitHub\Network-Security\SecurityPackage\SecurityPackageTest\obj\Debug\SecurityPackageTest.csproj.CoreCompileInputs.cache
+E:\GitHub\Network-Security\SecurityPackage\SecurityPackageTest\obj\Debug\SecurityPackageTest.dll
+E:\GitHub\Network-Security\SecurityPackage\SecurityPackageTest\obj\Debug\SecurityPackageTest.pdb
+E:\GitHub\Network-Security\SecurityPackage\SecurityPackageTest\bin\Debug\SecurityLibrary.exe
+E:\GitHub\Network-Security\SecurityPackage\SecurityPackageTest\obj\Debug\SecurityPackageTest.csproj.CopyComplete
