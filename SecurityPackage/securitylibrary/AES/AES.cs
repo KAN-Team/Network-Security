@@ -233,7 +233,6 @@ namespace SecurityLibrary.AES
                     // Console.Write(keyExpansionMat[i,j]);
                     keyExpansionMat[i, j] = final[j];
                 }
-
             }
         }
         void PrintKeyMatrix()
@@ -433,14 +432,10 @@ namespace SecurityLibrary.AES
             byte[] newRow = new byte[4];
             int j = 0;
             for (int i = n; i < 4; i++)
-            {
                 newRow[j++] = row[i];
-            }
 
             for (int i = 0; i < n; i++)
-            {
                 newRow[j++] = row[i];
-            }
 
             return newRow;
         }
@@ -501,7 +496,7 @@ namespace SecurityLibrary.AES
         byte[,] DoFinalRound(byte[,] state)
         {
             state = SubBytes(state);
-            //PrintMatrix(state);
+            PrintMatrix(state);
             //PrintKeyMatrix();
             state = ShiftRows(state);
             PrintMatrix(state);
@@ -527,29 +522,29 @@ namespace SecurityLibrary.AES
         byte[,] DoMainRounds(byte[,] state, int round)
         {
             state = SubBytes(state);
-            //PrintMatrix(state);
+            PrintMatrix(state);
             //PrintKeyMatrix();
             state = ShiftRows(state);
-            //PrintMatrix(state);
+            PrintMatrix(state);
             //PrintKeyMatrix();
             state = MixCols(state);
-            //PrintMatrix(state);
+            PrintMatrix(state);
             //PrintKeyMatrix();
             state = AddRoundKey(state, round);
-            //PrintMatrix(state);
+            PrintMatrix(state);
             //PrintKeyMatrix();
             return state;
         }
         byte[,] DoMainRoundsDecrypt(byte[,] state, int round)
         {
             state = AddRoundKey(state, round);
-            PrintMatrix(state);
+            //PrintMatrix(state);
             state = MixColsInverse(state);
-            PrintMatrix(state);
+            //PrintMatrix(state);
             state = ShiftMatrixInverse(state);
-            PrintMatrix(state);
+            //PrintMatrix(state);
             state = SubBytesMatrixInverse(state);
-            PrintMatrix(state);
+            //PrintMatrix(state);
             return state;
         }
         byte[,] DoFirstRoundDecrypt(byte[,] state)

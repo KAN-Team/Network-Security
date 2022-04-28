@@ -70,3 +70,4 @@ E:\GitHub\Network-Security\SecurityPackage\SecurityPackageTest\obj\Debug\Securit
 E:\GitHub\Network-Security\SecurityPackage\SecurityPackageTest\obj\Debug\SecurityPackageTest.dll
 E:\GitHub\Network-Security\SecurityPackage\SecurityPackageTest\obj\Debug\SecurityPackageTest.pdb
 E:\GitHub\Network-Security\SecurityPackage\SecurityPackageTest\bin\Debug\SecurityLibrary.exe
+E:\GitHub\Network-Security\SecurityPackage\SecurityPackageTest\obj\Debug\SecurityPackageTest.csproj.CopyComplete
