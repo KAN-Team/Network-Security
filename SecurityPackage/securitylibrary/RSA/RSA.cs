@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,20 +26,19 @@ namespace SecurityLibrary.RSA
             return getPowMod(C, d, n);
         }
 
-
+        
         #region HELPERS
         private int getPowMod(int msg, int k, int n)
         {
-            BigInteger newMsg = 1;
-            while (k > 3)
+            int newMsg = 1;
+            while (k >= 1)
             {
-                newMsg *= (int)(Math.Pow(msg, 3) % n);
-                k -= 3;
+                newMsg = (newMsg * msg) % n;
+                k--;
             }
-            newMsg *= (int)(Math.Pow(msg, k) % n);
             newMsg %= n;
 
-            return (int)newMsg;
+            return newMsg;
         }
         #endregion
     }

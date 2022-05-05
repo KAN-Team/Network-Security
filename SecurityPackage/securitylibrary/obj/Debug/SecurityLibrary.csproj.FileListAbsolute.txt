@@ -47,3 +47,9 @@ F:\Draasa\Fourth Year\Second Semister\2- Computer Security\Labs\Network-Security
 F:\Draasa\Fourth Year\Second Semister\2- Computer Security\Labs\Network-Security\SecurityPackage\SecurityLibrary\obj\Debug\SecurityLibrary.csproj.CoreCompileInputs.cache
 F:\Draasa\Fourth Year\Second Semister\2- Computer Security\Labs\Network-Security\SecurityPackage\SecurityLibrary\obj\Debug\SecurityLibrary.exe
 F:\Draasa\Fourth Year\Second Semister\2- Computer Security\Labs\Network-Security\SecurityPackage\SecurityLibrary\obj\Debug\SecurityLibrary.pdb
+F:\Draasa\Fourth Year\Second Semister\2- Computer Security\Labs\Tasks\Network-Security\SecurityPackage\SecurityLibrary\bin\Debug\SecurityLibrary.exe
+F:\Draasa\Fourth Year\Second Semister\2- Computer Security\Labs\Tasks\Network-Security\SecurityPackage\SecurityLibrary\bin\Debug\SecurityLibrary.pdb
+F:\Draasa\Fourth Year\Second Semister\2- Computer Security\Labs\Tasks\Network-Security\SecurityPackage\SecurityLibrary\obj\Debug\SecurityLibrary.csproj.AssemblyReference.cache
+F:\Draasa\Fourth Year\Second Semister\2- Computer Security\Labs\Tasks\Network-Security\SecurityPackage\SecurityLibrary\obj\Debug\SecurityLibrary.csproj.CoreCompileInputs.cache
+F:\Draasa\Fourth Year\Second Semister\2- Computer Security\Labs\Tasks\Network-Security\SecurityPackage\SecurityLibrary\obj\Debug\SecurityLibrary.exe
+F:\Draasa\Fourth Year\Second Semister\2- Computer Security\Labs\Tasks\Network-Security\SecurityPackage\SecurityLibrary\obj\Debug\SecurityLibrary.pdb
